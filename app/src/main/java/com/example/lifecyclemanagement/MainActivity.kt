@@ -17,16 +17,32 @@ class MainActivity : AppCompatActivity() {
     private var firstName: String = ""
     private var middleName: String = ""
     private var lastName: String = ""
-    lateinit var profilePic : Bitmap
-    lateinit var inputFirstName : EditText
-    lateinit var inputMiddleName : EditText
-    lateinit var inputLastName : EditText
+    private lateinit var profilePic : Bitmap
+    private lateinit var inputFirstName : EditText
+    private lateinit var inputMiddleName : EditText
+    private lateinit var inputLastName : EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         registerButtonHandlers()
         registerNameInputHandlers()
+
+        if(savedInstanceState != null)
+            loadPrevSession(savedInstanceState)
+    }
+
+    private fun loadPrevSession(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            firstName = savedInstanceState.getString("firstName", "")
+            middleName = savedInstanceState.getString("middleName", "")
+            lastName = savedInstanceState.getString("lastName", "")
+
+            inputFirstName.setText(firstName)
+            inputMiddleName.setText(middleName)
+            inputLastName.setText(lastName)
+        }
+
     }
 
     private fun registerNameInputHandlers() {
@@ -56,33 +72,38 @@ class MainActivity : AppCompatActivity() {
     private fun logIn(){
 //        if(this::profilePic.isInitialized)
 //        {
-//            try {
-//                startActivity(Intent(this, LoggedIn::class.java))
-//            } catch (ex: ActivityNotFoundException) {
-//            }
+            // require first and last name, but middle is optional
+            firstName = inputFirstName.text.toString()
+            middleName = inputMiddleName.text.toString()
+            lastName = inputLastName.text.toString()
+
+            if(firstName == "" || lastName == "")
+            {
+                Toast.makeText(applicationContext,"Please fill in with your First and Last Name!",Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                try {
+                    val intent :Intent = Intent(this@MainActivity, LoggedIn::class.java)
+                    intent.putExtra("firstName", firstName)
+                    intent.putExtra("lastName", lastName)
+                    startActivity(intent)
+                } catch (ex: ActivityNotFoundException) {
+                }
+            }
 //        }
 //        else
 //        {
 //            Toast.makeText(applicationContext,"First take a profile picture!",Toast.LENGTH_SHORT).show()
 //        }
+    }
 
-        // require first and last name, but middle is optional
-        firstName = inputFirstName.text.toString()
-        middleName = inputMiddleName.text.toString()
-        lastName = inputLastName.text.toString()
 
-        if(firstName == "" || lastName == "")
-        {
-            Toast.makeText(applicationContext,"Please fill in with your First and Last Name!",Toast.LENGTH_SHORT).show()
-        }
-        else
-        {
-            try {
-                println("going to different activity")
-                startActivity(Intent(this@MainActivity, LoggedIn::class.java))
-            } catch (ex: ActivityNotFoundException) {
-            }
-        }
-
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("firstName", firstName)
+        outState.putString("middleName", middleName)
+        outState.putString("lastName", lastName)
+        // save profile picture too
     }
 }
