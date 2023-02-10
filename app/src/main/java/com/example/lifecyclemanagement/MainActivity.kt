@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             loadPrevSession(savedInstanceState)
     }
 
+
     private fun loadPrevSession(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             firstName = savedInstanceState.getString("firstName", "")
@@ -45,11 +46,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     private fun registerNameInputHandlers() {
         inputFirstName = findViewById<EditText>(R.id.editFirstName) as EditText
         inputMiddleName = findViewById<EditText>(R.id.editMiddleName) as EditText
         inputLastName = findViewById<EditText>(R.id.editLastName) as EditText
     }
+
 
     private fun registerButtonHandlers() {
         val takePictureButton = findViewById<Button>(R.id.buttonTakePicture) as Button
@@ -63,6 +66,7 @@ class MainActivity : AppCompatActivity() {
             takeProfilePicture()
         }
     }
+
 
     private fun takeProfilePicture() {
         TODO("Not yet implemented")

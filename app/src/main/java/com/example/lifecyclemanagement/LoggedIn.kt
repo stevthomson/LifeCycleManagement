@@ -17,11 +17,13 @@ class LoggedIn: AppCompatActivity()  {
             displayWelcomeMessage()
     }
 
+
     private fun loadPrevSession(savedInstanceState: Bundle) {
         firstName = savedInstanceState.getString("firstName", "")
         lastName = savedInstanceState.getString("lastName", "")
         displayWelcomeMessage(firstName, lastName)
     }
+
 
     private fun displayWelcomeMessage(fName : String="", lName : String = "") {
         if(fName == "" || lName == "")
@@ -33,6 +35,7 @@ class LoggedIn: AppCompatActivity()  {
         val message = findViewById<TextView>(R.id.welcome_message) as TextView
         message.text = firstName + " " + lastName +" is logged in!"
     }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
