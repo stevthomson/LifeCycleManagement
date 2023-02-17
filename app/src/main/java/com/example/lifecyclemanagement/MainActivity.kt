@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveImage() {
         val cw = ContextWrapper(applicationContext)
-        val directory = File("${getExternalFilesDir(Environment.DIRECTORY_PICTURES)}/saved_images")//cw.getDir("myPics", Context.MODE_PRIVATE)
+        val directory = File("${getExternalFilesDir(Environment.DIRECTORY_PICTURES)}/images")//cw.getDir("myPics", Context.MODE_PRIVATE)
         println(directory.absolutePath)
         directory.mkdirs()
 
