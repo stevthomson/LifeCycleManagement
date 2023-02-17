@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private var lastName: String = ""
     private var picturePath : String = ""
     private var profilePic : Bitmap? = null
+    private var picIsSet : Boolean = false
     private lateinit var inputFirstName : EditText
     private lateinit var inputMiddleName : EditText
     private lateinit var inputLastName : EditText
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             profilePic =result.data!!.extras!!["data"] as Bitmap?
             image = findViewById(R.id.img_profileImage) as ImageView
             image.setImageBitmap(profilePic)
+            picIsSet = true
 
             if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
                 picturePath = "/data/user/0/com.example.lifecyclemanagement/app_myPics/myProfilePicture.png"
@@ -65,12 +67,17 @@ class MainActivity : AppCompatActivity() {
             middleName = savedInstanceState.getString("middleName", "")
             lastName = savedInstanceState.getString("lastName", "")
             picturePath = savedInstanceState.getString("picturePath", "")
-            image = findViewById(R.id.img_profileImage) as ImageView
+            image = findViewById<ImageView>(R.id.img_profileImage)
 
             inputFirstName.setText(firstName)
             inputMiddleName.setText(middleName)
             inputLastName.setText(lastName)
-            image.setImageBitmap(BitmapFactory.decodeFile(picturePath))
+            if(picturePath != "")
+            {
+                image.setImageBitmap(BitmapFactory.decodeFile(picturePath))
+                picIsSet = true
+            }
+
         }
 
     }
@@ -125,7 +132,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun logIn(){
-        if(image.drawable != null)
+        if(picIsSet)
         {
             // require first and last name, but middle is optional
             firstName = inputFirstName.text.toString()
