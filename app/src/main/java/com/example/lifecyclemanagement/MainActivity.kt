@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
             picIsSet = true
 
             if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-                picturePath = "/data/user/0/com.example.lifecyclemanagement/app_myPics/myProfilePicture.png"
                 saveImage()
             } else {
                 Toast.makeText(this, "Cannot save image", Toast.LENGTH_SHORT)
@@ -110,13 +109,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveImage() {
         val cw = ContextWrapper(applicationContext)
-        val directory = cw.getDir("myPics", Context.MODE_PRIVATE)
+        val directory = File("${getExternalFilesDir(Environment.DIRECTORY_PICTURES)}/saved_images")//cw.getDir("myPics", Context.MODE_PRIVATE)
         println(directory.absolutePath)
-        directory.mkdir()
+        directory.mkdirs()
 
-        val file = File(directory, picturePath)
+        val file = File(directory, "profile_pic.png")
         if(file.exists())
             file.delete()
+
+        picturePath = file.absolutePath
 
         try {
             val outputStream = FileOutputStream(file)
